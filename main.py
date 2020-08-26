@@ -11,6 +11,12 @@ from unet import Unet
 from dataset import LiverDataset
 from common_tools import transform_invert
 
+
+def makedir(dir):
+    if not os.path.exists(dir):
+        os.mkdir(dir)
+        
+    
 val_interval = 1
 # 是否使用cuda
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -24,6 +30,7 @@ valid_curve = list()
 
 
 def train_model(model, criterion, optimizer, dataload, num_epochs=100):
+    makedir('./model')
     model_path = "./model/weights_20.pth"
     if os.path.exists(model_path):
         model.load_state_dict(torch.load(model_path, map_location=device))
